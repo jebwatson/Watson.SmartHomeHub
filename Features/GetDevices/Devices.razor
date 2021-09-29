@@ -1,0 +1,71 @@
+﻿@inject NavigationManager _navigationManager
+@using Microsoft.AspNetCore.SignalR.Client
+@implements IAsyncDisposable
+
+<div class="form-group">
+    <label>
+        Device Id:
+        <input @bind="_idInput"/>
+    </label>
+</div>
+<button @onclick="Send" disabled="@(!IsConnected)">Send</button>
+
+<hr>
+
+<ul id="devicesList">
+    @foreach (var message in _messages)
+    {
+        <li>@message</li>
+    }
+</ul>
+
+@code {
+    private HubConnection? _hubConnection;
+    private readonly List<string> _messages = new();
+    private string? _idInput;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(_navigationManager.ToAbsoluteUri("/devicehub"))
+            .Build();
+
+        _hubConnection.On<DeviceCollection>("GetDevices", deviceCollection =>
+        {
+            _messages.Clear();
+
+            if (!deviceCollection.Devices.Any())
+            {
+                _messages.Add(deviceCollection.ResultMessage);
+                StateHasChanged();
+                return;
+            }
+
+            foreach (var device in deviceCollection.Devices)
+            {
+                _messages.Add(device.ToString());
+            }
+
+            StateHasChanged();
+        });
+
+        await _hubConnection.StartAsync();
+    }
+
+    private async Task Send()
+    {
+        await _hubConnection.SendAsync("SendDeviceQuery", _idInput);
+    }
+
+    private bool IsConnected =>
+        _hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_hubConnection is not null)
+        {
+            await _hubConnection.DisposeAsync();
+        }
+    }
+
+}

@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -6,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Watson.SmartHomeHub.Data;
-using Watson.SmartHomeHub.Hubs;
+using Watson.SmartHomeHub.Features.GetDevices;
 
 namespace Watson.SmartHomeHub
 {
@@ -23,6 +25,7 @@ namespace Watson.SmartHomeHub
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(typeof(Program).Assembly);
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
@@ -51,12 +54,19 @@ namespace Watson.SmartHomeHub
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(30),
+            };
+            
+            app.UseWebSockets(webSocketOptions);
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
-                endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapHub<DeviceHub>("/devicehub");
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
