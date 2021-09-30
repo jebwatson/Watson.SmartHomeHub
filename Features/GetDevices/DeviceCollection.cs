@@ -6,9 +6,9 @@ namespace Watson.SmartHomeHub.Features.GetDevices
 {
     public record DeviceCollection
     {
-        public IEnumerable<Device> Devices { get; init; }
-        
-        public string ResultMessage { get; init; }
+        public IEnumerable<Device> Devices { get; init; } = Enumerable.Empty<Device>();
+
+        public string ResultMessage { get; init; } = "No Devices Found";
 
         public static DeviceCollection Empty() => new DeviceCollection();
         
