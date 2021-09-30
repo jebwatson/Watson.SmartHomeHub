@@ -6,39 +6,41 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Watson.SmartHomeHub.Extensions;
+using Watson.SmartHomeHub.Features.HubitatHttpConnection;
 
 namespace Watson.SmartHomeHub.Features.GetDevices
 {
+    /// <summary>
+    /// Gets a collection of devices from hubitat.
+    /// </summary>
     public class GetDevicesHandler : IRequestHandler<GetDevicesQuery, DeviceCollection>
     {
+        private readonly IMediator _mediator;
+
+        public GetDevicesHandler(IMediator mediator)
+        {
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
+        
         public async Task<DeviceCollection> Handle(GetDevicesQuery request, CancellationToken cancellationToken)
         {
-            // Connect to hubitat and get devices
-            using var client = new HttpClient();
-            const string? baseUri = "https://cloud.hubitat.com/api/5ac77235-1449-4060-b7e3-9383701fb52d/";
-            const string? requestUri = "apps/2/devices";
-            const string? accessToken = "?access_token=f6bb25f0-65f9-4413-ac03-6ed43628b5b3";
+            var requestUri = new StringBuilder()
+                            .Append("apps/2/devices")
+                            .AppendIf($"/{request.Id}", _ => !string.IsNullOrEmpty(request.Id))
+                            .ToString();
+            
+            var response = await _mediator.Send(new HubitatHttpQuery { Uri = requestUri, }, cancellationToken);
 
-            var requestString = new StringBuilder()
-                               .Append(baseUri)
-                               .Append(requestUri)
-                               .AppendIf($"/{request.Id}", _ => !string.IsNullOrEmpty(request.Id))
-                               .Append(accessToken).ToString();
-
-            var response = await client.GetAsync(
-                requestString,
-                cancellationToken);
-
-            string parsedResponse;
-
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (response.Response?.StatusCode != HttpStatusCode.OK)
             {
                 return new DeviceCollection { ResultMessage = "No Devices Found", };
             }
 
+            string parsedResponse;
+            
             try
             {
-                parsedResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+                parsedResponse = await response.Response.Content.ReadAsStringAsync(cancellationToken);
             }
             catch (Exception e)
             {
