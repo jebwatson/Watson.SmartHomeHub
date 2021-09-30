@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,14 +20,14 @@ namespace Watson.SmartHomeHub.Features.GetDevices
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
-        
+
         public async Task<DeviceCollection> Handle(GetDevicesQuery request, CancellationToken cancellationToken)
         {
             var requestUri = new StringBuilder()
                             .Append("apps/2/devices")
                             .AppendIf($"/{request.Id}", _ => !string.IsNullOrEmpty(request.Id))
                             .ToString();
-            
+
             var response = await _mediator.Send(new HubitatHttpQuery { Uri = requestUri, }, cancellationToken);
 
             if (response.Response?.StatusCode != HttpStatusCode.OK)
@@ -37,7 +36,7 @@ namespace Watson.SmartHomeHub.Features.GetDevices
             }
 
             string parsedResponse;
-            
+
             try
             {
                 parsedResponse = await response.Response.Content.ReadAsStringAsync(cancellationToken);
