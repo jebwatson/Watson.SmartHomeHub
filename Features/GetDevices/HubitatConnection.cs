@@ -1,7 +1,4 @@
 ﻿namespace Watson.SmartHomeHub.Features.GetDevices
 {
-    public record HubitatConnection
-    {
-        
-    }
+    public record HubitatConnection;
 }
