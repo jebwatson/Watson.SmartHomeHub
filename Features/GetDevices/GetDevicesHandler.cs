@@ -35,17 +35,7 @@ namespace Watson.SmartHomeHub.Features.GetDevices
                 return new DeviceCollection { ResultMessage = "No Devices Found", };
             }
 
-            string parsedResponse;
-
-            try
-            {
-                parsedResponse = await response.Response.Content.ReadAsStringAsync(cancellationToken);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new DeviceCollection { ResultMessage = "No Devices Found", };
-            }
+            var parsedResponse = await response.Response.Content.ReadAsStringAsync(cancellationToken);
 
             return string.IsNullOrEmpty(request.Id)
                 ? DeviceCollection.FromJson(parsedResponse)

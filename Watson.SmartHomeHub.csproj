@@ -17,25 +17,25 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Watson.SmartHomeHub.Tests\**" />
+      <Compile Remove="Tests\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="Watson.SmartHomeHub.Tests\**" />
+      <EmbeddedResource Remove="Tests\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Watson.SmartHomeHub.Tests\**" />
+      <None Remove="Tests\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="Watson.SmartHomeHub.Tests\**" />
+      <Content Remove="Tests\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Watson.SmartHomeHub.Tests\obj\project.assets.json" />
-      <_ContentIncludedByDefault Remove="Watson.SmartHomeHub.Tests\obj\project.packagespec.json" />
-      <_ContentIncludedByDefault Remove="Watson.SmartHomeHub.Tests\obj\Watson.SmartHomeHub.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="Tests\Watson.SmartHomeHub.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="Tests\Watson.SmartHomeHub.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="Tests\Watson.SmartHomeHub.Tests\obj\Watson.SmartHomeHub.Tests.csproj.nuget.dgspec.json" />
     </ItemGroup>
 
 </Project>
