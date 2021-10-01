@@ -2,15 +2,14 @@ name: dotnet package
 
 on:
   push:
-    branches: [ root ]
+    branches: [root]
 
 jobs:
   build_and_deploy:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: [ '5.0.x' ]
+        dotnet-version: ['5.0.x']
 
     steps:
       - uses: actions/checkout@v2
@@ -25,7 +24,7 @@ jobs:
       - name: Test
         run: dotnet test --no-restore --verbosity normal
       - uses: actions/checkout@v2
-      - run: dotnet publish -c Release -o release Watson.SmartHomeHub.csproj
+      - run: dotnet publish -c Release -o public Watson.SmartHomeHub.csproj
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
