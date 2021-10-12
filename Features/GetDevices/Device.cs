@@ -16,7 +16,7 @@ namespace Watson.SmartHomeHub.Features.GetDevices
 
         public static Device FromJson(string json)
         {
-            return JsonConvert.DeserializeObject<Device>(json) ?? new();
+            return JsonConvert.DeserializeObject<Device>(json) ?? new Device();
         }
     }
 }

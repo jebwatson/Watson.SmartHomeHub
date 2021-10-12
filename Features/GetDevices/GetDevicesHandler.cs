@@ -25,7 +25,6 @@ namespace Watson.SmartHomeHub.Features.GetDevices
         {
             var requestUri = new StringBuilder()
                             .Append("apps/2/devices")
-                            .AppendIf($"/{request.Id}", _ => !string.IsNullOrEmpty(request.Id))
                             .ToString();
 
             var response = await _mediator.Send(new HubitatHttpQuery { Uri = requestUri, }, cancellationToken);
@@ -37,9 +36,7 @@ namespace Watson.SmartHomeHub.Features.GetDevices
 
             var parsedResponse = await response.Response.Content.ReadAsStringAsync(cancellationToken);
 
-            return string.IsNullOrEmpty(request.Id)
-                ? DeviceCollection.FromJson(parsedResponse)
-                : new DeviceCollection { Devices = new[] { Device.FromJson(parsedResponse), }, };
+            return DeviceCollection.FromJson(parsedResponse);
         }
     }
 }

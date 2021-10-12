@@ -2,27 +2,33 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @implements IAsyncDisposable
 
-<div class="form-group">
-    <label>
-        Device Id:
-        <input @bind="_idInput"/>
-    </label>
-</div>
-<button @onclick="Send" disabled="@(!IsConnected)">Send</button>
-
-<hr>
-
-<ul id="devicesList">
-    @foreach (var message in _messages)
-    {
-        <li>@message</li>
-    }
-</ul>
+<RadzenDataGrid @ref="_devicesGrid" AllowSorting="true" Data="@_devices" TItem="Device">
+    <Columns>
+        <RadzenDataGridColumn Width="50px" TItem="Device" Title="#" Sortable="false" TextAlign="TextAlign.Center">
+            <Template Context="data">
+                @(_devices.IndexOf(data) + 1)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn Width="200px" TItem="Device" Property="Id" Title="Device ID">
+            <Template Context="data">
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="help" Click="@(() => OpenDevice(data.Id))" Text="@data.Id?.ToString()"/>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn Width="200px" TItem="Device" Property="Name" Title="Device Name"/>
+        <RadzenDataGridColumn TItem="Device" Property="Label" Title="Device Label"/>
+        <RadzenDataGridColumn TItem="Device" Property="Type" Title="Device Type"/>
+    </Columns>
+</RadzenDataGrid>
 
 @code {
+    private RadzenDataGrid<Device> _devicesGrid;
+    private IList<Device> _devices = new List<Device>();
     private HubConnection? _hubConnection;
-    private readonly List<string> _messages = new();
-    private string? _idInput;
+
+    async Task OpenDevice(string? deviceId)
+    {
+        Console.WriteLine("Device Clicked");
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,30 +37,19 @@
             .Build();
 
         _hubConnection.On<DeviceCollection>("GetDevices", deviceCollection =>
-        {
-            _messages.Clear();
-
-            if (!deviceCollection.Devices.Any())
             {
-                _messages.Add(deviceCollection.ResultMessage);
-                StateHasChanged();
-                return;
-            }
-
-            foreach (var device in deviceCollection.Devices)
-            {
-                _messages.Add(device.ToString());
-            }
-
+            _devices.Clear();
+            _devices = deviceCollection.Devices.ToList();
             StateHasChanged();
-        });
+            });
 
         await _hubConnection.StartAsync();
+        await _hubConnection.SendAsync("SendDeviceQuery");
     }
 
     private async Task Send()
     {
-        await _hubConnection.SendAsync("SendDeviceQuery", _idInput);
+        await _hubConnection.SendAsync("SendDeviceQuery");
     }
 
     private bool IsConnected =>

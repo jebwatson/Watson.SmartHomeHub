@@ -40,30 +40,6 @@ namespace Tests.Features.GetDevicesTests
         }
 
         [Test]
-        public async Task WhenDeviceSpecified_HandleReturnsDeviceCollection_WithSpecifiedDevice()
-        {
-            var uut = new GetDevicesHandler(_mediator.Object);
-            var request = new GetDevicesQuery("1");
-            HttpContent responseContent =
-                new StringContent(
-                    "{\"id\":\"1\",\"name\":\"hueBridge\",\"label\":\"Hue Bridge (6A7E0F)\",\"type\":\"hueBridge\",\"attributes\":[{\"name\":\"status\",\"currentValue\":\"Online\",\"dataType\":\"STRING\"}],\"capabilities\":[\"Refresh\"],\"commands\":[\"refresh\"]}");
-
-            var httpResponse = new HttpResponseMessage { Content = responseContent, };
-            var response = new HubitatHttpResponse { Response = httpResponse, };
-            var devices = new Device[] { new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", }, };
-            var collection = new DeviceCollection { Devices = devices, };
-            var tokenSource = new CancellationTokenSource();
-
-            _mediator
-               .Setup(m => m.Send(It.IsAny<HubitatHttpQuery>(), tokenSource.Token))
-               .ReturnsAsync(response);
-
-            var result = await uut.Handle(request, tokenSource.Token);
-
-            Assert.AreEqual(result, collection);
-        }
-
-        [Test]
         public async Task WhenDeviceNotSpecified_HandleReturnsDeviceCollection_WithAllDevices()
         {
             var uut = new GetDevicesHandler(_mediator.Object);
