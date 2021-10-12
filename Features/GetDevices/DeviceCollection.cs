@@ -11,7 +11,7 @@ namespace Watson.SmartHomeHub.Features.GetDevices
 
         public string ResultMessage { get; init; } = "No Devices Found";
 
-        public static DeviceCollection Empty() => new DeviceCollection();
+        public static DeviceCollection Empty() => new();
         
         public static DeviceCollection FromJson(string json)
         {

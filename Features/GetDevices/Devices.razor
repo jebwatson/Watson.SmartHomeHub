@@ -2,7 +2,9 @@
 @inject NavigationManager _navigationManager
 @inject DialogService _dialogService
 @using Microsoft.AspNetCore.SignalR.Client
-@using Watson.SmartHomeHub.Features.ShowDeviceDetails
+@using DialogService = Radzen.DialogService
+@using Watson.SmartHomeHub.Features.GetDeviceDetails
+@using DialogOptions = Radzen.DialogOptions
 @implements IAsyncDisposable
 
 <RadzenDataGrid @ref="_devicesGrid" AllowSorting="true" Data="@_deviceCollection.Devices.ToList()" TItem="Device">
@@ -14,7 +16,7 @@
         </RadzenDataGridColumn>
         <RadzenDataGridColumn Width="200px" TItem="Device" Property="Id" Title="Device ID">
             <Template Context="data">
-                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="help" Click="@(() => ShowDeviceDetails(data))" Text="@data.Id?.ToString()"/>
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="help" Click="@(() => ShowDeviceDetails(data))" Text="@data.Id.ToString()"/>
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn Width="200px" TItem="Device" Property="Name" Title="Device Name"/>
@@ -30,7 +32,12 @@
 
     async Task ShowDeviceDetails(Device device)
     {
-        await _dialogService.OpenAsync<DialogCardPage>($"Device {device.Id}", new Dictionary<string, object> { { "Device", device }, }, new DialogOptions { Width = "700px", Height = "530px", });
+        await _dialogService
+            .OpenAsync<DeviceDetailsDialog>(
+                $"Device Details",
+                new Dictionary<string, object> { { "DeviceId", device.Id }, },
+                new DialogOptions { Width = "700px", Height = "600px", }
+            );
     }
 
     // Might want to cache this data to avoid excessive network traffic

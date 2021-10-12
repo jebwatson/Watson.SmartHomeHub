@@ -12,8 +12,8 @@ namespace Tests.Features.GetDevicesTests
         {
             var devices1 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "2", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 2, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
 
             var collection1 = new DeviceCollection { Devices = devices1, };
@@ -29,12 +29,12 @@ namespace Tests.Features.GetDevicesTests
         {
             var devices1 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "2", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 2, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
             var devices2 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
 
             var collection1 = new DeviceCollection { Devices = devices1, };
@@ -50,13 +50,13 @@ namespace Tests.Features.GetDevicesTests
         {
             var devices1 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "2", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 2, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
             var devices2 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "3", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 3, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
 
             var collection1 = new DeviceCollection { Devices = devices1, };
@@ -72,8 +72,8 @@ namespace Tests.Features.GetDevicesTests
         {
             var devices1 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "2", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 2, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
 
             var collection1 = new DeviceCollection { Devices = devices1, };
@@ -88,8 +88,8 @@ namespace Tests.Features.GetDevicesTests
         {
             var devices1 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "2", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 2, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
 
             var collection1 = new DeviceCollection { Devices = devices1, };
@@ -104,8 +104,8 @@ namespace Tests.Features.GetDevicesTests
         {
             var devices1 = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "2", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 2, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
 
             var collection1 = new DeviceCollection { Devices = devices1, };

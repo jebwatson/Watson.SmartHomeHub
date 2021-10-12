@@ -1,0 +1,76 @@
+﻿@page "/dialogcard/{DeviceId}"
+@using Microsoft.AspNetCore.SignalR.Client
+@using DialogService = Radzen.DialogService
+@inject DialogService _dialogService
+@inject NavigationManager _navigationManager
+
+<RadzenCard Style="margin-bottom: 20px;" Visible="_visible">
+    <h1>@_deviceDetails.Label details</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div>Device Id:</div>
+            <b>@_deviceDetails.Id</b>
+
+            <div style="margin-top:20px">Device Label:</div>
+            <b>@_deviceDetails.Label</b>
+        </div>
+        <div class="col-md-6">
+            <div>Device Name:</div>
+            <b>@_deviceDetails.Name</b>
+            <div style="margin-top:20px">Device Type:</div>
+            <b>@_deviceDetails.Type</b>
+        </div>
+    </div>
+    <MudDivider/>
+    <div class="row">
+        <h2 style="margin-left: 20px;">Commands</h2>
+    </div>
+    <div class="row">
+        <RadzenDataList WrapItems="true" Data="_commands" TItem="string">
+            <Template Context="command">
+                <RadzenCard Style="width:180px;" @onclick="() => OnCommandClicked(DeviceId, command)">
+                    <div align="center">
+                        <div style="float: top; margin-bottom: 5px; text-overflow: ellipsis">@command</div>
+                        <RadzenIcon Icon="lightbulb" Style="color:goldenrod; float: bottom; margin-top: 5px;"/>
+                    </div>
+                </RadzenCard>
+            </Template>
+        </RadzenDataList>
+    </div>
+</RadzenCard>
+<div align="right">
+    <RadzenButton Click="@(args => _dialogService.Close())" Text="Close" Style="margin-bottom: 10px; width: 150px"/>
+</div>
+
+@code {
+    [Parameter] public string DeviceId { get; set; } = "";
+    private List<DeviceDetails> _deviceDetailsCollection = new();
+    private DeviceDetails _deviceDetails = new();
+    private List<string> _commands = new();
+    private HubConnection? _hubConnection;
+    private bool _visible;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(_navigationManager.ToAbsoluteUri(DeviceDetailsHub.Route))
+            .Build();
+
+        _hubConnection.On<DeviceDetails>(nameof(GetDeviceDetailsQuery), details =>
+        {
+            _deviceDetails = details;
+            _commands = details.Commands.ToList();
+            _deviceDetailsCollection = new List<DeviceDetails> { details, };
+            _visible = true;
+            StateHasChanged();
+        });
+
+        await _hubConnection.StartAsync();
+        await _hubConnection.SendAsync(nameof(DeviceDetailsHub.SendDeviceDetailsQuery), DeviceId);
+    }
+
+    private static void OnCommandClicked(string deviceId, string command)
+    {
+        Console.WriteLine($"Command {command} clicked on device {deviceId}");
+    }
+}

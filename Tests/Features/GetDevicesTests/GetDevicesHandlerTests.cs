@@ -51,8 +51,8 @@ namespace Tests.Features.GetDevicesTests
             var response = new HubitatHttpResponse { Response = httpResponse, };
             var devices = new Device[]
             {
-                new() { Id = "1", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
-                new() { Id = "2", Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 1, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
+                new() { Id = 2, Name = "hueBridge", Label = "Hue Bridge (6A7E0F)", Type = "hueBridge", },
             };
 
             var collection = new DeviceCollection { Devices = devices, };

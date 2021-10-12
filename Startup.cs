@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Radzen;
 using Watson.SmartHomeHub.Data;
+using Watson.SmartHomeHub.Features.GetDeviceDetails;
 using Watson.SmartHomeHub.Features.GetDevices;
 
 namespace Watson.SmartHomeHub
@@ -69,6 +70,7 @@ namespace Watson.SmartHomeHub
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapHub<DeviceHub>("/devicehub");
+                endpoints.MapHub<DeviceDetailsHub>(DeviceDetailsHub.Route);
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
