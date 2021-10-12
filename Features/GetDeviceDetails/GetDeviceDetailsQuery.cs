@@ -4,9 +4,9 @@ namespace Watson.SmartHomeHub.Features.GetDeviceDetails
 {
   public record GetDeviceDetailsQuery : IRequest<DeviceDetails>
   {
-    public string DeviceId { get; } = "";
+    public int DeviceId { get; }
 
-    public GetDeviceDetailsQuery(string deviceId)
+    public GetDeviceDetailsQuery(int deviceId)
     {
       DeviceId = deviceId;
     }

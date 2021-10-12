@@ -69,7 +69,7 @@ namespace Watson.SmartHomeHub
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
-                endpoints.MapHub<DeviceHub>("/devicehub");
+                endpoints.MapHub<DeviceHub>(DeviceHub.Route);
                 endpoints.MapHub<DeviceDetailsHub>(DeviceDetailsHub.Route);
                 endpoints.MapFallbackToPage("/_Host");
             });

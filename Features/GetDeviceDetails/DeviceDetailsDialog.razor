@@ -43,7 +43,7 @@
 </div>
 
 @code {
-    [Parameter] public string DeviceId { get; set; } = "";
+    [Parameter] public int DeviceId { get; set; }
     private List<DeviceDetails> _deviceDetailsCollection = new();
     private DeviceDetails _deviceDetails = new();
     private List<string> _commands = new();
@@ -69,7 +69,7 @@
         await _hubConnection.SendAsync(nameof(DeviceDetailsHub.SendDeviceDetailsQuery), DeviceId);
     }
 
-    private static void OnCommandClicked(string deviceId, string command)
+    private static void OnCommandClicked(int deviceId, string command)
     {
         Console.WriteLine($"Command {command} clicked on device {deviceId}");
     }

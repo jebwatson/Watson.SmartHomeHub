@@ -7,6 +7,8 @@ namespace Watson.SmartHomeHub.Features.GetDeviceDetails
 {
   public record DeviceDetails
   {
+#region Properties
+
     public int Id { get; init; }
     public string Name { get; init; } = "";
     public string Label { get; init; } = "";
@@ -14,10 +16,14 @@ namespace Watson.SmartHomeHub.Features.GetDeviceDetails
     public IEnumerable<DeviceAttribute> Attributes { get; init; } = Enumerable.Empty<DeviceAttribute>();
     public IEnumerable<string> Commands { get; init; } = Enumerable.Empty<string>();
 
+#endregion
+
+#region Public Methods
+
     public static DeviceDetails FromJson(string json)
     {
       DeviceDetails result = new();
-      
+
       try
       {
         result = JsonConvert.DeserializeObject<DeviceDetails>(json) ?? new DeviceDetails();
@@ -29,14 +35,20 @@ namespace Watson.SmartHomeHub.Features.GetDeviceDetails
 
       return result;
     }
+
+#endregion
   }
 
   public record DeviceAttribute
   {
+#region Properties
+
     public string Name { get; init; } = "";
     public string CurrentValue { get; init; } = "";
     public string DataType { get; init; } = "";
     public IEnumerable<string> Values { get; init; } = Enumerable.Empty<string>();
+
+#endregion
   }
 
   /// <summary>
@@ -47,7 +59,11 @@ namespace Watson.SmartHomeHub.Features.GetDeviceDetails
 
   public record DeviceCommand
   {
+#region Properties
+
     public string Command { get; init; } = "";
     public IEnumerable<string> Type { get; init; } = Enumerable.Empty<string>();
+
+#endregion
   }
 }

@@ -16,11 +16,11 @@
         </RadzenDataGridColumn>
         <RadzenDataGridColumn Width="200px" TItem="Device" Property="Id" Title="Device ID">
             <Template Context="data">
-                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="help" Click="@(() => ShowDeviceDetails(data))" Text="@data.Id.ToString()"/>
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Style="width: 180px" Icon="help" Click="@(() => ShowDeviceDetails(data))" Text="@data.Id.ToString()"/>
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn Width="200px" TItem="Device" Property="Name" Title="Device Name"/>
         <RadzenDataGridColumn TItem="Device" Property="Label" Title="Device Label"/>
+        <RadzenDataGridColumn Width="200px" TItem="Device" Property="Name" Title="Device Name"/>
         <RadzenDataGridColumn TItem="Device" Property="Type" Title="Device Type"/>
     </Columns>
 </RadzenDataGrid>
@@ -45,13 +45,14 @@
     protected override async Task OnInitializedAsync()
     {
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl(_navigationManager.ToAbsoluteUri("/devicehub"))
+            .WithUrl(_navigationManager.ToAbsoluteUri(DeviceHub.Route))
             .Build();
 
         _hubConnection.On<DeviceCollection>("GetDevices", deviceCollection =>
         {
             _deviceCollection = deviceCollection;
             StateHasChanged();
+            _devicesGrid.OrderBy("Id");
         });
 
         await _hubConnection.StartAsync();

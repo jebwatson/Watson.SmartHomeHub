@@ -9,6 +9,8 @@ namespace Watson.SmartHomeHub.Features.GetDevices
     {
         private readonly IMediator _mediator;
 
+        public static string Route => "/deviceHub";
+
         public DeviceHub(IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
