@@ -30,6 +30,8 @@
         Console.WriteLine("Device Clicked");
     }
 
+    // Might want to cache this data to avoid excessive network traffic
+    // Can refresh this list manually with a button
     protected override async Task OnInitializedAsync()
     {
         _hubConnection = new HubConnectionBuilder()
