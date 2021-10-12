@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Radzen;
 using Watson.SmartHomeHub.Data;
 using Watson.SmartHomeHub.Features.GetDevices;
 
@@ -29,10 +30,11 @@ namespace Watson.SmartHomeHub
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddScoped<DialogService>();
             services.AddResponseCompression(opts =>
-            {
+                {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream", });
-            });
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

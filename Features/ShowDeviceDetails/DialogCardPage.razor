@@ -1,0 +1,51 @@
+﻿@page "/dialogcard/{_deviceId}"
+@inject DialogService _dialogService
+
+<h1>Dialog with parameters</h1>
+
+<p>This page demonstrates <b>Dialog</b> component with parameters.</p>
+<h3>DeviceID: @Device.Id</h3>
+<RadzenCard Style="margin-bottom: 20px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div>Device Name:</div>
+            <b>@Device.Name</b>
+        </div>
+        <div class="col-md-6">
+            <div>Device Label:</div>
+            <b>@Device.Label</b>
+            <div style="margin-top:20px">Device Type:</div>
+            <b>@Device.Type</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Device Details</h3>
+            <RadzenDataGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            Data="@DeviceCollection.Devices.Where(d => d.Id == Device.Id)" TItem="Device" ColumnWidth="200px">
+                <Columns>
+                    <RadzenDataGridColumn TItem="Device" Property="Name" Title="Device Name"/>
+                    <RadzenDataGridColumn TItem="Device" Property="Label" Title="Device Label"/>
+                    <RadzenDataGridColumn TItem="Device" Property="Type" Title="Device Type"/>
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    </div>
+</RadzenCard>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenButton Click="@(args => _dialogService.Close(true))" Text="OK" Style="margin-bottom: 10px; width: 150px"/>
+        <RadzenButton Click="@(args => _dialogService.Close(false))" ButtonStyle="ButtonStyle.Secondary" Text="Cancel" Style="margin-bottom: 10px; width: 150px"/>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Device Device { get; set; } = new();
+    [Parameter] public DeviceCollection DeviceCollection { get; set; } = new();
+    private string? _deviceId;
+
+    protected override void OnInitialized()
+    {
+        _deviceId = Device.Id;
+    }
+}
